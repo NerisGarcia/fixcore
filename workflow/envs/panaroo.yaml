@@ -1,7 +1,9 @@
 channels:
   - bioconda
   - conda-forge
+  - anaconda
 dependencies:
   - python=3.9
   - panaroo=1.5.1
+  - mkl=2023.2.0
 

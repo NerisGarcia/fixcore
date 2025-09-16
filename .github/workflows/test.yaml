@@ -105,3 +105,25 @@ jobs:
         run: pip install 'snakemake==8.20.5' 'pulp'
       - name: Run test pipeline
         run: snakemake --use-conda -s workflow/Snakefile --directory .test --configfile .test/config_panacota.yaml .test/targets.yaml -c2 --conda-frontend conda
+  test_docker:
+    runs-on: ubuntu-latest
+    needs: skip_duplicates
+    if: needs.skip_duplicates.should_skip != 'true'
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Setup mamba
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: .test/snakemake_env.yaml
+          activate-environment: "snakemake"
+          channels: conda-forge,bioconda,defaults
+          auto-activate-base: true
+      - name: Install dependencies
+        run: pip install 'snakemake==8.20.5' 'pulp'
+      - name: Run test pipeline
+        run: snakemake --sdm apptainer -s workflow/Snakefile --directory .test --configfile .test/config_panacota.yaml .test/targets.yaml -c2 

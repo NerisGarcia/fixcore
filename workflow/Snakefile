@@ -16,6 +16,9 @@ if snakemake.__version__ != "8.20.5":
     print("conda install -c bioconda -c conda-forge snakemake=8.20.5")
     exit(1)
 
+# Container
+containerized: "docker://jordieet/fixcore:latest"
+
 # Load configuration files
 configfile: "config/config.yaml"
 configfile: "config/target.yaml"
