@@ -2,6 +2,7 @@
 
 [![Snakemake](https://img.shields.io/badge/Snakemake-≥8.20-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
 ![Test workflow](https://github.com/SeviJordi/FixCore/actions/workflows/test.yaml/badge.svg)
+![Docker workflow](https://github.com/SeviJordi/FixCore/actions/workflows/Docker.yaml/badge.svg)
  [![License (AGPL version 3)](https://img.shields.io/badge/license-GNU%20AGPL%20version%203-green.svg)](COPYING)
  
 Snakemake workflow to polish core genome alignments
@@ -37,6 +38,11 @@ snakemake --use-conda -c 8  # To run with 8 threads
 
 We recomend to run the workflow with at least 8 threads, but any natural number can be provided. Workflow parameters can be modified in the [workflow configuration file](/config/config.yaml).
 
+Alternatively, you can use the provided Docker container to run the workflow. First, make sure you have [apptainer](https://apptainer.org/) or [Singularity](https://sylabs.io/singularity/) installed. Then, you can run the workflow using the following command:
+
+```
+snakemake --sdm apptainer -c 8  
+```
 
 ## Outputs
 
