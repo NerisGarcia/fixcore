@@ -48,7 +48,7 @@ COPY workflow/envs/phylo.yaml /conda-envs/587f409f4cc07e23a3fc4e1c8fb64b48/envir
 
 # Step 2: Generate conda environments
 
-RUN conda env create --prefix /conda-envs/3f7305c3b93f0f7b90ba4db67f9c5ad2 --file /conda-envs/3f7305c3b93f0f7b90ba4db67f9c5ad2/environment.yaml && \
-    conda env create --prefix /conda-envs/ef6754e3ecb2223efa1a0aefb73628e9 --file /conda-envs/ef6754e3ecb2223efa1a0aefb73628e9/environment.yaml && \
-    conda env create --prefix /conda-envs/587f409f4cc07e23a3fc4e1c8fb64b48 --file /conda-envs/587f409f4cc07e23a3fc4e1c8fb64b48/environment.yaml && \
-    conda clean --all -y
+RUN mamba env create --prefix /conda-envs/3f7305c3b93f0f7b90ba4db67f9c5ad2 --file /conda-envs/3f7305c3b93f0f7b90ba4db67f9c5ad2/environment.yaml && \
+    mamba env create --prefix /conda-envs/ef6754e3ecb2223efa1a0aefb73628e9 --file /conda-envs/ef6754e3ecb2223efa1a0aefb73628e9/environment.yaml && \
+    mamba env create --prefix /conda-envs/587f409f4cc07e23a3fc4e1c8fb64b48 --file /conda-envs/587f409f4cc07e23a3fc4e1c8fb64b48/environment.yaml && \
+    mamba clean --all -y
