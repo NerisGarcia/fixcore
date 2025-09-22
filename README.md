@@ -1,8 +1,8 @@
 # FixCore
 
 [![Snakemake](https://img.shields.io/badge/Snakemake-≥8.20-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
-![Test workflow](https://github.com/SeviJordi/fixcore/actions/workflows/test.yaml/badge.svg)
-![Docker workflow](https://github.com/SeviJordi/fixcore/actions/workflows/Docker.yaml/badge.svg)
+![Test workflow](https://github.com/NerisGarcia/fixcore/actions/workflows/test.yaml/badge.svg)
+![Docker workflow](https://github.com/NerisGarcia/fixcore/actions/workflows/Docker.yaml/badge.svg)
  [![License (AGPL version 3)](https://img.shields.io/badge/license-GNU%20AGPL%20version%203-green.svg)](COPYING)
  
 Snakemake workflow to polish core genome alignments
@@ -63,9 +63,9 @@ Contributions are welcome! To contribute:
 FixCore is licensed under the **GNU AGPL v3**. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
-For issues or questions, open an [issue](https://github.com/SeviJordi/fixcore/issues) on GitHub.
+For issues or questions, open an [issue](https://github.com/NerisGarcia/fixcore/issues) on GitHub.
 
 
 ## Contributors
 
-[![Contributors figure](https://contrib.rocks/image?repo=SeviJordi/fixcore)](https://github.com/SeviJordi/fixcore/graphs/contributors)
+[![Contributors figure](https://contrib.rocks/image?repo=NerisGarcia/fixcore)](https://github.com/NerisGarcia/fixcore/graphs/contributors)
