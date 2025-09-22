@@ -65,3 +65,7 @@ FixCore is licensed under the **GNU AGPL v3**. See the [LICENSE](LICENSE) file f
 ## Contact
 For issues or questions, open an [issue](https://github.com/SeviJordi/FixCore/issues) on GitHub.
 
+
+## Contributors
+
+[![Contributors figure](https://contrib.rocks/image?repo=SeviJordi/FixCore)](https://github.com/SeviJordi/FixCore/graphs/contributors)
