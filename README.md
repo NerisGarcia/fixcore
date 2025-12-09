@@ -55,7 +55,7 @@ See inline comments in these files for parameter descriptions.
 - Input: assemblies or core-family FASTA files.
 - Core-genome extraction (optional): PanACoTA, Roary, or Panaroo.
 - Multiple sequence alignment (MAFFT) per core gene.
-- Trimming (TrimAl) and curation using provided scripts.
+- Trimming and curation using provided scripts.
 - Concatenation of curated gene alignments.
 - Maximum likelihood phylogeny from the concatenated alignment.
 
