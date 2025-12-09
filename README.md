@@ -6,6 +6,8 @@
 
 FixCore is a Snakemake workflow for producing high-quality core-genome alignments and phylogenies from pangenome analyses. It can either derive core genes from assemblies using PanACoTA, Roary, or Panaroo, or start from precomputed core-family FASTA files. Each core gene is aligned, trimmed, and curated to remove poorly aligned regions. Curated gene alignments are then concatenated to build a robust species-level alignment and a maximum-likelihood tree.
 
+The pipeline includes the fixcore algorithm for curating core gene alignments. This algorithm is based on the gene and amino acid alignment and its phylogeny to detect and remove sequences with errors.
+
 ---
 
 
