@@ -13,7 +13,7 @@ Snakemake workflow to polish core genome alignments
 You have the option to download the zipped version of this repository (find the button on the right-hand side of the screen). Also it is possible to clone this repository:
 
 ```
-git clone git@github.com:SeviJordi/FixCore.git
+git clone https://github.com/NerisGarcia/fixcore.git
 cd FixCore
 
 ```
