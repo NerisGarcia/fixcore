@@ -55,11 +55,11 @@ See inline comments in these files for parameter descriptions.
 
 ## Workflow overview
 - Input: assemblies or core-family FASTA files.
-- Core-genome extraction (optional): PanACoTA, Roary, or Panaroo.
+- Core-genome extraction (optional): PanACoTA, Roary, or Panaroo. Family thresholds are configurable in `config/config.yaml`. The default thresholds are: for PanACoTA 80% identity, for Roary 95%, and for Panaroo 70%.
 - Multiple sequence alignment (MAFFT) per core gene.
-- Trimming and curation using provided scripts.
+- Trimming and curation using timmal and the fixcore algorithm.
 - Concatenation of curated gene alignments.
-- Maximum likelihood phylogeny from the concatenated alignment.
+- Maximum likelihood phylogeny from the concatenated alignment with IQTREE2 and GTR+G and 1000 bootstrap replicates.
 
 ## Outputs
 - Concatenated curated alignment of core genes.
