@@ -22,8 +22,8 @@ The pipeline includes the FixCore algorithm for curating core gene alignments. T
 ## Prerequisites
 
 -   Linux/macOS (tested on Linux).
--   Conda (Miniconda or Mambaforge) recommended for environment management.
--   Snakemake ≥ 8.20.5. If unavailable, install following the [official guide](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+-   Conda (Miniconda or Mambaforge) recommended for environment management. If not installed, follow the [installation guide](https://www.anaconda.com/docs/getting-started/miniconda/install#quickstart-install-instructions).
+-   Snakemake = 8.20.5. If unavailable, you can install it using Conda:
 
     ```bash
     conda create -n snakemake -c conda-forge -c bioconda snakemake=8.20.5
@@ -53,7 +53,6 @@ cd fixcore
 
     We recommend at least 8 threads, but any positive integer is valid.
 
-## Configuration and parameter selection
 
 Alternatively, you can use the provided Docker container to run the workflow. First, make sure you have [apptainer](https://apptainer.org/) or [Singularity](https://sylabs.io/singularity/) installed. Then, you can run the workflow using the following command:
 
@@ -61,7 +60,7 @@ Alternatively, you can use the provided Docker container to run the workflow. Fi
 snakemake --sdm apptainer -c 8  
 ```
 
-## Configuration
+## Configuration and parameter selection
 Workflow parameters can be changed in the configuration files:
 
 -   `config/config.yaml`: global settings, including `core_tool` selection and parameters for pangenome, alignment, trimming, curation, and phylogeny.
@@ -74,6 +73,55 @@ See inline comments in these files for parameter descriptions.
 -   Concatenated curated alignment of core genes.
 -   Maximum-likelihood phylogeny for the concatenated alignment.
 -   Intermediate files (per-gene alignments, trimmed and curated versions) to support downstream analyses.
+
+## Python wrapper
+A Python wrapper script `fixcore-runner.py` is provided for easier execution. It handles argument parsing and invokes Snakemake with the appropriate parameters.
+
+First, ensure you have the required Python packages installed:
+
+```bash
+pip install -r requirements.txt
+```
+Then add execute permissions to the script and include it in your PATH for easy access:
+
+```bash
+chmod +x fixcore-runner.py
+export PATH=$PATH:$(pwd)
+```
+
+The script has the following usage:
+
+```bash
+Usage: fixcore-runner.py [-h] [-c CORES] [-g GENES_DIR] [-a ASSEMBLIES_DIR] [-p PREFIX] [-o OUTDIR] [-t {none,roary,panaroo,panacota}] [-th THRESHOLD] [-d]
+
+Run the FIXCORE snakemake workflow.
+
+Options:
+  -h, --help            show this help message and exit
+  -c, --cores CORES     Number of cores to use for the workflow
+  -g, --genes_dir GENES_DIR
+                        Directory containing the gene alignments to process
+  -a, --assemblies_dir ASSEMBLIES_DIR
+                        Directory containing the assemblies to process. Only if no genes_dir is provided.
+  -p, --prefix PREFIX   Prefix for the output files
+  -o, --outdir OUTDIR   Output directory for the results
+  -t, --pangenome-tool {none,roary,panaroo,panacota}
+                        Pangenome analysis tool to use. Only if no assemblies_dir is provided.
+  -th, --threshold THRESHOLD
+                        Threshold percentage for core gene definition. Only if pangenome-tool is not 'none'.
+  -d, --use-apptainer   Whether to use Apptainer containers for the workflow.
+```
+
+As an example you can run the workflow with the test datasets included in the repository. For running with precomputed gene families:
+
+```bash
+fixcore-runner.py -c 8 -g ./.test/alignments/ -o test
+```
+For running with assemblies and PanACoTA for core-genome extraction:
+
+```bash
+fixcore-runner.py -c 8  -a ./.test/genomes/ -o prueba -t panacota
+```
 
 ## Troubleshooting
 
