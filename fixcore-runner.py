@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Jordi Sevilla Fortuny
-# Script to launch the snakemake workflow BDPP
+# Script to launch the snakemake workflow FIXCORE
 
 import os
 import sys
@@ -100,18 +100,18 @@ def check_arguments(args):
 def check_tools(apptainer=False):
     # Check that snakemake is instaled and with the correct version
     if which("snakemake") is None:
-        print("Error: Snakemake is not installed or not found in PATH.")
+        console.print("[bold red]Error ❌: Snakemake is not installed or not found in PATH.[/bold red]")
         sys.exit(1)
     import snakemake
 
     if snakemake.__version__ != "8.20.5":
-        print(f"Error: Snakemake version 8.20.5 is required, but version {snakemake.__version__} is installed.")
+        console.print(f"[bold red]Error ❌: Snakemake version 8.20.5 is required, but version {snakemake.__version__} is installed.[/bold red]")
         sys.exit(1)
    
     # Check that apptainer/singularity is installed if needed
     if apptainer:
         if which("apptainer") is None or which("singularity") is None:
-            print("Error: Apptainer/Singularity is not installed or not found in PATH.")
+            console.print("[bold red]Error ❌: Apptainer/Singularity is not installed or not found in PATH.[/bold red]")
             sys.exit(1)
         
 def check_files(path, extension=".fasta"):
@@ -190,7 +190,7 @@ def main():
     console.print(f"Launching workflow with the following command:\n{cmd}\n")
     os.system(cmd)
     console.print("\n[bold green]Workflow completed ✔[/bold green]")
-    
+
 
 if __name__ == "__main__":
     main()
