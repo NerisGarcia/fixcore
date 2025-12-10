@@ -11,6 +11,8 @@ from shutil import which
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
+from rich_argparse import RichHelpFormatter
+
 
 console = Console()
 
@@ -19,7 +21,7 @@ __version__ = "1.0.0"
 
 # Parse command line arguments
 def parse_args():
-    parser = ArgumentParser(description="Run the BDPP snakemake workflow.")
+    parser = ArgumentParser(description="Run the FIXCORE snakemake workflow.", formatter_class=RichHelpFormatter)
     parser.add_argument(
         "-c", "--cores", type=int, default=4, help="Number of cores to use for the workflow"
     )
