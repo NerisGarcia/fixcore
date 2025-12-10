@@ -38,7 +38,7 @@ CORE:
     CLEAN_MODE: "sensitive"
   PANACOTA:
     FAMILY_THRESHOLD: 0.8
-    NAME: ""
+    NAME: "TEST"
     ANNOTATE:
       L90: 500
       NBCONT: 2000

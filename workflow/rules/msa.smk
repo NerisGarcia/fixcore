@@ -1,3 +1,5 @@
+import platform
+
 def input_mafft(wildcards):
     checkpoint_output = checkpoints.select_core_genes.get(**wildcards).output[0]
     return TARGET_DIR/f"{wildcards.gene_name}.fasta"
@@ -39,6 +41,8 @@ rule generate_consensus:
 
 rule add_consensus:
     threads: 1
+    params:
+        sed_inplace = "sed -i ''" if platform.system() == "Darwin" else "sed -i" 
     input:
         consensus = PATHCONS/"{gene_name}.consensus.fasta",
         aln = PATHALN/"{gene_name}.mafft.fasta"
@@ -51,7 +55,7 @@ rule add_consensus:
         exec >{log}
         exec 2>&1
 
-        sed -i 's/-/n/g' {input.consensus}
+        {params.sed_inplace} 's/-/n/g' {input.consensus}
         cat {input.consensus} {input.aln} > {output.with_consensus}
         """
 
