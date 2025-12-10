@@ -1,4 +1,4 @@
-name: Test FixCore workflow
+name: Docker
 run-name: ${{ github.actor }} is testing snakemake workflow 🚀
 on: [push, pull_request]
  
@@ -17,7 +17,7 @@ jobs:
           cancel_others: "true"
           concurrent_skipping: "same_content_newer"
           paths_ignore: '["**/README.md", "**/LICENSE"]'
-  run_test_pipeline_on_genes:
+  test_docker:
     runs-on: ubuntu-latest
     needs: skip_duplicates
     if: needs.skip_duplicates.should_skip != 'true'
@@ -37,31 +37,11 @@ jobs:
           auto-activate-base: true
       - name: Install dependencies
         run: pip install 'snakemake==8.20.5' 'pulp'
+      - name: Install apptainer
+        run: sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt-get update && sudo apt-get install -y apptainer
       - name: Run test pipeline
-        run: snakemake --use-conda -s workflow/Snakefile --directory .test --configfile config/config.yaml .test/targets.yaml -c2 --conda-frontend conda
-  run_test_panaroo_core:
-    runs-on: ubuntu-latest
-    needs: skip_duplicates
-    if: needs.skip_duplicates.should_skip != 'true'
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - name: Setup mamba
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          environment-file: .test/snakemake_env.yaml
-          channels: conda-forge,bioconda,defaults
-          activate-environment: "snakemake"
-          auto-activate-base: true
-      - name: Install dependencies
-        run: pip install 'snakemake==8.20.5' 'pulp'
-      - name: Run test pipeline
-        run: snakemake --use-conda -s workflow/Snakefile --directory .test --configfile .test/config_panaroo.yaml .test/targets.yaml -c2 --conda-frontend conda
-  run_test_roary_core:
+        run: snakemake --sdm apptainer conda -s workflow/Snakefile --directory .test --configfile config/config.yaml .test/targets.yaml -c2 
+  test_docker_panaroo:
     runs-on: ubuntu-latest
     needs: skip_duplicates
     if: needs.skip_duplicates.should_skip != 'true'
@@ -81,9 +61,11 @@ jobs:
           auto-activate-base: true
       - name: Install dependencies
         run: pip install 'snakemake==8.20.5' 'pulp'
+      - name: Install apptainer
+        run: sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt-get update && sudo apt-get install -y apptainer
       - name: Run test pipeline
-        run: snakemake --use-conda -s workflow/Snakefile --directory .test --configfile .test/config_roary.yaml .test/targets.yaml -c2 --conda-frontend conda
-  run_test_panacota_core:
+        run: snakemake --sdm apptainer conda -s workflow/Snakefile --directory .test --configfile .test/config_panaroo.yaml .test/targets.yaml -c2 
+  test_docker_roary:
     runs-on: ubuntu-latest
     needs: skip_duplicates
     if: needs.skip_duplicates.should_skip != 'true'
@@ -103,5 +85,31 @@ jobs:
           auto-activate-base: true
       - name: Install dependencies
         run: pip install 'snakemake==8.20.5' 'pulp'
+      - name: Install apptainer
+        run: sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt-get update && sudo apt-get install -y apptainer
       - name: Run test pipeline
-        run: snakemake --use-conda -s workflow/Snakefile --directory .test --configfile .test/config_panacota.yaml .test/targets.yaml -c2 --conda-frontend conda
+        run: snakemake --sdm apptainer conda -s workflow/Snakefile --directory .test --configfile .test/config_roary.yaml .test/targets.yaml -c2 
+  test_docker_panacota:
+    runs-on: ubuntu-latest
+    needs: skip_duplicates
+    if: needs.skip_duplicates.should_skip != 'true'
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Setup mamba
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: .test/snakemake_env.yaml
+          activate-environment: "snakemake"
+          channels: conda-forge,bioconda,defaults
+          auto-activate-base: true
+      - name: Install dependencies
+        run: pip install 'snakemake==8.20.5' 'pulp'
+      - name: Install apptainer
+        run: sudo add-apt-repository -y ppa:apptainer/ppa && sudo apt-get update && sudo apt-get install -y apptainer
+      - name: Run test pipeline
+        run: snakemake --sdm apptainer conda -s workflow/Snakefile --directory .test --configfile .test/config_panacota.yaml .test/targets.yaml -c2 
