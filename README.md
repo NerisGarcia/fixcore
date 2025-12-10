@@ -115,12 +115,12 @@ Options:
 As an example you can run the workflow with the test datasets included in the repository. For running with precomputed gene families:
 
 ```bash
-fixcore-runner.py -c 8 -g ./.test/alignments/ -o test
+fixcore-runner.py -c 8 -g path/to/fixcore/.test/alignments/ -o test
 ```
 For running with assemblies and PanACoTA for core-genome extraction:
 
 ```bash
-fixcore-runner.py -c 8  -a ./.test/genomes/ -o test -t panacota
+fixcore-runner.py -c 8  -a path/to/fixcore/.test/genomes/ -o test -t panacota
 ```
 
 ## Troubleshooting
