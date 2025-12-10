@@ -58,7 +58,7 @@ if config["CORE"]["TOOL"] in ["panaroo", "roary"]:
     PROKKA_DIR.mkdir(parents=True, exist_ok=True)
 
 # Useful functions
-def iter_genome_names(path=config["GENOMES_DIR"]):
+def iter_genome_names(path=GENOMES_DIR):
     for file in [f for f in listdir(path) if f.endswith(".fasta") and not f.startswith(".")]:
         yield file.replace(".fasta", "")
 
