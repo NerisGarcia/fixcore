@@ -8,6 +8,11 @@ import sys
 from argparse import ArgumentParser
 from sys import argv
 from shutil import which
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+
+console = Console()
 
 # Version
 __version__ = "1.0.0"
@@ -78,16 +83,16 @@ def parse_args():
 
 def check_arguments(args):
     if args.genes_dir is None and args.assemblies_dir is None:
-        print("Error: You must provide either a genes directory or an assemblies directory.")
+        console.print("[bold red]Error ❌: You must provide either a genes directory or an assemblies directory.[/bold red]")
         sys.exit(1)
     if args.genes_dir is not None and args.assemblies_dir is not None:
-        print("Error: You cannot provide both a genes directory and an assemblies directory.")
+        console.print("[bold red]Error ❌: You cannot provide both a genes directory and an assemblies directory.[/bold red]")
         sys.exit(1)
     if args.assemblies_dir is not None and args.pangenome_tool == "none":
-        print("Error: You must specify a pangenome tool when providing assemblies.")
+        console.print("[bold red]Error ❌ : You must specify a pangenome tool when providing assemblies.[/bold red]")
         sys.exit(1)
     if args.pangenome_tool != "none" and (args.threshold < 0 or args.threshold > 1):
-        print("Error: Threshold must be between 0 and 1.")
+        console.print("[bold red]Error ❌: Threshold must be between 0 and 1.[/bold red]")
         sys.exit(1)
     
     return args.assemblies_dir is not None
@@ -111,31 +116,33 @@ def check_tools(apptainer=False):
         
 def check_files(path, extension=".fasta"):
     if not os.path.isdir(path):
-        print(f"Error: Directory '{path}' does not exist.")
+        console.print(f"[bold red]Error ❌: Directory '{path}' does not exist.[/bold red]")
         sys.exit(1)
     files = [f for f in os.listdir(path) if f.endswith(extension)]
     if len(files) == 0:
-        print(f"Error: No files with extension '{extension}' found in directory '{path}'.")
+        console.print(f"[bold red]Error ❌: No files with extension '{extension}' found in directory '{path}'.[/bold red]")
         sys.exit(1)
 
 def main():
     args = parse_args()
 
-    print(" _____ _       ____               \n|  ___(_)_  __/ ___|___  _ __ ___ \n| |_  | \\ \\/ / |   / _ \\| '__/ _ \\\n|  _| | |>  <| |__| (_) | | |  __/\n|_|   |_/_/\\_\\\\____\\___/|_|  \\___|\n                                  \n")
-    print(f"Pipeline to fix pangenome based alignments (version {__version__})\n")
+    console.print(Panel.fit(" _____ _       ____               \n|  ___(_)_  __/ ___|___  _ __ ___ \n| |_  | \\ \\/ / |   / _ \\| '__/ _ \\\n|  _| | |>  <| |__| (_) | | |  __/\n|_|   |_/_/\\_\\\\____\\___/|_|  \\___|\n                                  \n",
+                            style="bold purple"))
+    console.print(f"[bold green]FixCore Runner v{__version__}[/bold green]\n")
 
-    print("checking input arguments...\n")
+    # Check arguments
     assemblies = check_arguments(args)
 
-    print("checking required tools...\n")
+    # Check required tools
     check_tools(apptainer=args.use_apptainer)
+    console.print("[bold green]The required tools are installed ✔[/bold green]\n")
 
     # Check that there are files in the provided directories
     if assemblies:
         check_files(args.assemblies_dir, extension=".fasta")
     else:
         check_files(args.genes_dir, extension=".fasta")
-    
+    console.print("[bold green]Input files found ✔[/bold green]\n")
 
     # Ges script directory to run snakemake from there
     script_dir = os.path.dirname(os.path.abspath(argv[0]))
@@ -149,10 +156,15 @@ def main():
             "snakemake",
             "--cores", str(args.cores),
             "--config",
+            "\\\n",
             f"GENOMES_DIR={os.path.abspath(args.assemblies_dir)}",
+            "\\\n",
             f"OUTDIR={os.path.abspath(args.outdir)}",
+            "\\\n",
             f"PREFIX={args.prefix}",
+            "\\\n",
             "CORE='{TOOL : %s, THRESHOLD: %s}'" % (args.pangenome_tool, args.threshold),
+            "\\\n",
             software_flag,
             " -q rules"
         ])
@@ -161,9 +173,13 @@ def main():
             "snakemake",
             "--cores", str(args.cores),
             "--config",
+            "\\\n",
             f"GENES_DIR={os.path.abspath(args.genes_dir)}",
+            "\\\n",
             f"OUTDIR={os.path.abspath(args.outdir)}",
+            "\\\n",
             f"PREFIX={args.prefix}",
+            "\\\n",
             software_flag,
             " -q rules"
         ])
@@ -171,9 +187,10 @@ def main():
 
     # Execute the command
     
-    print(f"Launching workflow with the following command:\n{cmd}\n")
+    console.print(f"Launching workflow with the following command:\n{cmd}\n")
     os.system(cmd)
-
+    console.print("\n[bold green]Workflow completed ✔[/bold green]")
+    
 
 if __name__ == "__main__":
     main()
