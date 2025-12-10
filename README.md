@@ -2,7 +2,6 @@
 
 [![Snakemake](https://img.shields.io/badge/Snakemake-≥8.20-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
 ![Test workflow](https://github.com/NerisGarcia/fixcore/actions/workflows/test.yaml/badge.svg)
-![Docker workflow](https://github.com/NerisGarcia/fixcore/actions/workflows/Docker.yaml/badge.svg)
  [![License (AGPL version 3)](https://img.shields.io/badge/license-GNU%20AGPL%20version%203-green.svg)](COPYING)
 
 FixCore is a Snakemake workflow for producing high-quality core-genome alignments and phylogenies from pangenome analyses. It can either derive core genes from assemblies using PanACoTA, Roary, or Panaroo, or start from precomputed core-family FASTA files. Each core gene is aligned, trimmed, and curated to remove poorly aligned regions. Curated gene alignments are then concatenated to build a robust species-level alignment and a maximum-likelihood tree.
