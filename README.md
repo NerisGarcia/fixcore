@@ -120,7 +120,7 @@ fixcore-runner.py -c 8 -g ./.test/alignments/ -o test
 For running with assemblies and PanACoTA for core-genome extraction:
 
 ```bash
-fixcore-runner.py -c 8  -a ./.test/genomes/ -o prueba -t panacota
+fixcore-runner.py -c 8  -a ./.test/genomes/ -o test -t panacota
 ```
 
 ## Troubleshooting
