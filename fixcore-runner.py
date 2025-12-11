@@ -130,6 +130,10 @@ def check_tools(apptainer=False):
             "[bold red]Error ❌: Snakemake is not installed or not found in PATH.[/bold red]"
         )
         sys.exit(1)
+    else:
+        console.print(
+            "[bold green]Snakemake found ✔[/bold green]"
+        )
     import snakemake
 
     if snakemake.__version__ != "8.20.5":
@@ -137,6 +141,11 @@ def check_tools(apptainer=False):
             f"[bold red]Error ❌: Snakemake version 8.20.5 is required, but version {snakemake.__version__} is installed.[/bold red]"
         )
         sys.exit(1)
+    else:
+        console.print(
+            "[bold green]Snakemake version is correct ✔[/bold green]"
+        )
+
 
     # Check that apptainer/singularity is installed if needed
     if apptainer:
@@ -145,6 +154,24 @@ def check_tools(apptainer=False):
                 "[bold red]Error ❌: Apptainer/Singularity is not installed or not found in PATH.[/bold red]"
             )
             sys.exit(1)
+        return "--sdm apptainer"
+    else:
+        # Check mamba or conda is installed
+        if which("mamba") is None and which("conda") is None:
+            console.print(
+                "[bold red]Error ❌: Mamba or Conda is not installed or not found in PATH.[/bold red]"
+            )
+            sys.exit(1)
+        elif which("mamba") is not None:
+            console.print(
+                "[bold green]Mamba found ✔[/bold green]"
+            )
+            return "--use-conda"
+        elif which("conda") is not None:
+            console.print(
+                "[bold yellow]Warning ⚠: Mamba not found, using Conda instead.[/bold yellow]"
+            )
+            return "--use-conda --conda-frontend conda"
 
 
 def check_files(path, extension=".fasta"):
@@ -176,7 +203,7 @@ def main():
     assemblies = check_arguments(args)
 
     # Check required tools
-    check_tools(apptainer=args.use_apptainer)
+    software_flag = check_tools(apptainer=args.use_apptainer)
     console.print("[bold green]The required tools are installed ✔[/bold green]\n")
 
     # Check that there are files in the provided directories
@@ -191,12 +218,7 @@ def main():
 
     # Construct the snakemake command
     # Software managment flag
-    software_flag = (
-        "--sdm apptainer"
-        if args.use_apptainer
-        else "--use-conda --conda-frontend conda"
-    )
-
+     
     if assemblies:
         cmd = f"cd {script_dir} && " + " ".join(
             [
@@ -240,8 +262,15 @@ def main():
     # Execute the command
 
     console.print(f"Launching workflow with the following command:\n{cmd}\n")
-    os.system(cmd)
-    console.print("\n[bold green]Workflow completed ✔[/bold green]")
+    # run the command and catch the return code
+    return_code = os.system(cmd)
+    if return_code != 0:
+        console.print(
+            f"[bold red]Error ❌: Workflow failed with return code {return_code}.[/bold red]"
+        )
+        sys.exit(1)
+    else:
+        console.print("\n[bold green]Workflow completed ✔[/bold green]")
 
 
 if __name__ == "__main__":
