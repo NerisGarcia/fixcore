@@ -3,7 +3,7 @@ rule panaroo:
     threads: config["CORE"]["N_CORES"]
     conda: "../envs/panaroo.yaml"
     params:
-        threshold = config["CORE"]["THRESHOLD"],
+        threshold = float(config["CORE"]["THRESHOLD"]),
         family_threshold = config["CORE"]["PANAROO"]["FAMILY_THRESHOLD"],
         clean_mode = config["CORE"]["PANAROO"]["CLEAN_MODE"],
         extra_params = config["CORE"]["PANAROO"]["EXTRA_PARAMS"],
@@ -36,7 +36,7 @@ rule roary:
     threads: config["CORE"]["N_CORES"]
     conda: "../envs/roary.yaml"
     params:
-        threshold = config["CORE"]["THRESHOLD"]*100 if config["CORE"]["THRESHOLD"] < 1 else config["CORE"]["THRESHOLD"],
+        threshold = float(config["CORE"]["THRESHOLD"])*100 if float(config["CORE"]["THRESHOLD"]) < 1 else float(config["CORE"]["THRESHOLD"]),
         family_threshold = config["CORE"]["ROARY"]["FAMILY_THRESHOLD"]*100 if config["CORE"]["ROARY"]["FAMILY_THRESHOLD"] < 1 else config["CORE"]["ROARY"]["FAMILY_THRESHOLD"],
         extra_params = config["CORE"]["ROARY"]["EXTRA_PARAMS"],
         out = PATHPAN
@@ -155,7 +155,7 @@ rule panacota_corepers:
     threads: config["CORE"]["N_CORES"]
     conda: "../envs/panacota.yaml"
     params:
-        threshold = config["CORE"]["THRESHOLD"],
+        threshold = float(config["CORE"]["THRESHOLD"]),
         extra_params = config["CORE"]["PANACOTA"]["COREPERS"]["EXTRA_PARAMS"],
         mode = config["CORE"]["PANACOTA"]["COREPERS"]["MODE"]
     input:

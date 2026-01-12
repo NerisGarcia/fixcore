@@ -1,7 +1,7 @@
 
 rule annotate:
     threads: config["PROKKA"]["N_CORES"]
-    conda: "../envs/prokka.yaml" # TODO: create env
+    conda: "../envs/prokka.yaml" 
     params:
         outdir = PROKKA_DIR
     input:
