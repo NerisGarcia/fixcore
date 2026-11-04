@@ -32,7 +32,7 @@ The pipeline includes the FixCore algorithm for curating core gene alignments. T
 
 ### R library versions
 
-FixCore was tested with the following R and R library versions. We recommend creating a Conda environment with them (e.g. save as `fixcore-r.yaml`):
+FixCore was tested with the following R and R library versions. We recommend creating a Conda environment with them:
 
 ```yaml
 name: fixcore-r
@@ -47,10 +47,6 @@ dependencies:
   - r-logger=0.3.0
 ```
 
-```bash
-conda env create -f fixcore-r.yaml
-conda activate fixcore-r
-```
 
 ## Installation
 
