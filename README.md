@@ -30,6 +30,28 @@ The pipeline includes the FixCore algorithm for curating core gene alignments. T
     conda activate snakemake
     ```
 
+### R library versions
+
+FixCore was tested with the following R and R library versions. We recommend creating a Conda environment with them (e.g. save as `fixcore-r.yaml`):
+
+```yaml
+name: fixcore-r
+channels:
+  - conda-forge
+dependencies:
+  - r-base=4.4.1
+  - r-tidyverse=2.0.0
+  - r-ape=5.8
+  - r-phangorn=2.12.1
+  - r-phylobase=0.8.12
+  - r-logger=0.3.0
+```
+
+```bash
+conda env create -f fixcore-r.yaml
+conda activate fixcore-r
+```
+
 ## Installation
 
 Clone the repository or download a zip release:
@@ -161,4 +183,4 @@ For issues or questions, open an [issue](https://github.com/NerisGarcia/fixcore/
 
 ## Contributors
 
-[![Contributors figure](https://contrib.rocks/image?repo=NerisGarcia/fixcore)](https://github.com/NerisGarcia/fixcore/graphs/contributors)
+[![Contributors figure](https://contrib.rocks/image?repo=NerisGarcia/fixcore/graphs/contributors)](https://github.com/NerisGarcia/fixcore/graphs/contributors)
